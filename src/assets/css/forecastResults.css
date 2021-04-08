@@ -1,0 +1,30 @@
+
+.header3{
+    width: 40%;
+    margin: auto;
+    margin-top: 35px;
+    text-align: center;
+    padding: 30px; 
+    color:white;
+    border-radius: 10px;
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+    box-shadow:0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2);
+}
+
+.body3{
+    width: 80%;
+    margin: auto;
+    margin-top: -20px;
+    text-align: center;
+    padding: 30px;
+    position:static;
+    z-index: -1;
+    border-radius: 10px;
+    box-shadow:0 12px 20px -10px rgba(76, 175, 80, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(76, 175, 80, 0.2);
+}
+
+
+.input3{
+    border-radius: 8px;
+    padding:8px;
+}

@@ -1,0 +1,15 @@
+:root {
+    --pcol: black;
+    --scol: white;
+    --tspeed: 0.5s;
+    --base-scale: 1.1;
+    --subMenu-width: 12.25rem;
+   
+    --fgrad: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+    --sgrad: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+   
+    --rm-font-size: 0.875rem;
+    --sm-font-size: 0.65rem;
+  }
+
+  

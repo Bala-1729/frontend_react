@@ -1,0 +1,176 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int idValue=1;
+
+typedef struct employeeDetails{
+    char *name;
+    int id;
+    struct employeeDetails* next;
+    struct employeeDetails* previous;
+}emp;
+emp* starting=NULL;
+
+void writeToFile(emp* record){
+    FILE *file;
+    file=fopen("C:\\Users\\akash\\Desktop\\file as DB\\file.txt","w");
+    if(file==NULL){
+        printf("File can't be opened");
+    }
+    else{
+        emp* row=record;
+        while(row!=NULL){
+            fseek(file,0,SEEK_END);
+            fwrite(row,sizeof(emp),1,file);
+            row=row->next;
+        }
+    }
+}
+
+emp* readFromFile(){
+    FILE *file;
+    idValue=1;
+    file=fopen("C:\\Users\\akash\\Desktop\\file as DB\\file.txt","r+");
+     if(file==NULL){
+        printf("File can't be opened");
+    }
+    else{
+        fseek(file,0,SEEK_END);
+        long fileSize=ftell(file);
+        rewind(file);
+        int noOfRecords=(int)(fileSize/sizeof(emp));
+        printf("\nNo of records:",noOfRecords);
+        for(int i=0;i<noOfRecords;i++){
+            fseek(file,(sizeof(emp)*i),SEEK_SET);
+            if(starting==NULL){
+                starting=(emp*)malloc(sizeof(emp));
+                fread(starting,sizeof(emp),1,file);
+                starting->next=NULL;
+                starting->id=idValue++;
+            }
+            else{
+                emp* temp=(emp*)malloc(sizeof(emp));
+                fread(temp,sizeof(emp),1,file);
+                temp->next=NULL;
+                temp->id=idValue++;
+                starting->next=temp;
+            }
+        }
+    }
+    return starting;
+}
+
+int menu(){
+    printf("Menu choose the option which want to be executed\n");
+    printf("1)To see employee details\n2)To add employee detail\n3)To delete employee detail\n");
+    int option;
+    scanf("%d \n",&option);
+    printf("%d-",option);
+    return option;
+}
+
+int add(){
+    printf("enter the employee name to add\n");
+    char name[20];
+    emp* temp = (emp*)malloc(sizeof(emp));
+    scanf("%[^\n]%*c", name);
+    temp->name=name;
+    temp->id=idValue++;
+    temp->next=NULL;
+    if(starting==NULL){
+        starting=temp;
+    }
+    else{
+        emp* temp2=starting;
+        int count=0;
+        while(temp2!=NULL){
+            if(strcmp(temp->name,temp2->name)<0){
+                if(count==0){
+                    starting=temp;
+                    starting->next=temp2;
+                    break;
+                }
+                else{
+                    temp->next=temp2;
+                    temp2=temp;
+                    break;
+                }
+            }
+            else{
+                temp2=temp2->next;
+            }
+            count++;
+        }
+    }
+    return 0;
+}
+
+void deleteDetail(){
+    printf("enter the employee name\n");
+    char name[20];
+    scanf("%[^\n]%*c",name);
+    int flag=0;
+    if(starting==NULL){
+        printf("No records found\n");
+    }
+    else{
+        emp* temp2=starting;
+        if(strcmp(temp2->name,name)==0){
+            starting=NULL;
+            flag=1;
+        }
+        while(temp2->next!=NULL){
+            if(strcmp(temp2->next->name,name)==0)
+            {
+                if(temp2->next->next!=NULL){
+                    emp* temp3=temp2->next->next;
+                    free(temp2->next);
+                    temp2->next=temp3;
+                    idValue--;
+                    break;
+                }
+                else{
+                    free(temp2->next);
+                    temp2->next=NULL;
+                    idValue--;
+                    break;
+                }
+                flag=1;
+            }
+            temp2=temp2->next;
+        }
+            if(flag==0){
+                printf("No record found in that employee name\n");
+        }
+    }
+}
+void view(){
+    emp* temp=starting;
+    while(temp!=NULL){
+    printf("Name:%s  id:%d\n",temp->name,temp->id);
+    temp=temp->next;
+    }
+}
+int main()
+{
+    int m;
+    begining:
+    m=menu();
+    switch(m){
+        case 1:
+            view();
+            goto begining;
+        case 2:
+            add();
+            goto begining;
+        case 3:
+            deleteDetail();
+            goto begining;
+        default:
+            printf("Enter only the number");
+            begining;
+    }
+    writeToFile(starting);
+    return 0;
+}
