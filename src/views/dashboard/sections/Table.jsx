@@ -18,11 +18,11 @@ export default class PatientTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rows:[]
-    }
+      rows: [],
+    };
     this.Load = this.Load.bind(this);
   }
-  
+
   column = [
     { title: "Id", field: "id", align: "center" },
     { title: "Temperature", field: "temp", align: "center" },
@@ -30,7 +30,10 @@ export default class PatientTable extends React.Component {
     { title: "PH Value", field: "ph_value", align: "center" },
     { title: "Moisture", field: "moisture", align: "center" },
     { title: "Crop Predicted", field: "crop", align: "center" },
-  ]
+    { title: "Nitrogen", field: "n", align: "center" },
+    { title: "Phosphorus", field: "p", align: "center" },
+    { title: "Potassium", field: "k", align: "center" },
+  ];
 
   Load() {
     axios({
@@ -38,17 +41,18 @@ export default class PatientTable extends React.Component {
       method: "GET",
       headers: {
         Authorization: `Token ${token}`,
-      }
+      },
     })
       .then((response) => {
-        this.setState({rows:response.data.CropsHistory})
+        console.log(response);
+        this.setState({ rows: response.data.CropsHistory });
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.Load();
   }
 

@@ -3,12 +3,9 @@ import styled from "styled-components";
 import bg from "../../assets/img/login_bg.jpg";
 import Navbar from "../../components/navbar_dashboard/navbar";
 import {
-  BoxContainer,
-  FormContainer,
   SubmitButton,
 } from "../login/sections/accountBox/common";
 import { useState } from "react";
-import {Redirect} from "react-router-dom";
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
 const AppContainer = styled.div`
@@ -96,6 +93,7 @@ function App() {
           PhoneNumber: mobileNumber
         },
       });
+      console.log(response)
       redirect_dashboard();
     } catch (error) {
       console.log(error)

@@ -43,7 +43,7 @@ export function SignupForm(props) {
   const token = localStorage.getItem("token");
   const Submit = async (e) => {
     e.preventDefault();
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       setOpen1("block");
       setConfirmPassword("");
       setPassword("")

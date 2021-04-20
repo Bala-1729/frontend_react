@@ -1,15 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import logo from "../../assets/img/leaves.png" 
 import Navbar from "reactjs-navbar";
 import { useHistory } from 'react-router-dom';
 
 import {
-  faGlobe,
-  faCogs,
   faBorderAll,
   faSignOutAlt,
-  faUserCog,
-  faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
  
 import "reactjs-navbar/dist/index.css";

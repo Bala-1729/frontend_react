@@ -3,7 +3,7 @@ import "../../../assets/css/predict.css";
 import styled from "styled-components";
 import Results from "./results";
 import axios from "axios";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Table from "./Table";
 
 const Input = styled.input`
@@ -41,7 +41,7 @@ const SubmitButton = styled.button`
   padding: 11px;
   color: #fff;
   font-size: 12px;
-  font-weight:600;
+  font-weight: 600;
   border: none;
   border-radius: 30px;
   text-align: center;
@@ -77,11 +77,11 @@ export default class Predict extends React.Component {
       result_display: "none",
       float: "none",
       crop: "Mango",
-      n: "40",
-      p: "60",
-      k: "30",
-      flag:false,
-      submitbutton:false
+      n: "",
+      p: "",
+      k: "",
+      flag: false,
+      submitbutton: false,
     };
 
     this.submitEvent = this.submitEvent.bind(this);
@@ -89,7 +89,11 @@ export default class Predict extends React.Component {
     this.onChangehumidity = this.onChangehumidity.bind(this);
     this.onChangeph = this.onChangeph.bind(this);
     this.onChangemoisture = this.onChangemoisture.bind(this);
+    this.onChangeN = this.onChangeN.bind(this);
+    this.onChangeP = this.onChangeP.bind(this);
+    this.onChangeK = this.onChangeK.bind(this);
     this.loadEvent = this.loadEvent.bind(this);
+    this.sendNPK = this.sendNPK.bind(this);
     this.redirect = this.redirect.bind(this);
   }
 
@@ -105,11 +109,14 @@ export default class Predict extends React.Component {
         temp: this.state.temp,
         humidity: this.state.humidity,
         ph_value: this.state.ph_value,
-        moisture: this.state.moisture
+        moisture: this.state.moisture,
+        n: this.state.n,
+        p: this.state.p,
+        k: this.state.k,
       },
     })
       .then((response) => {
-        this.setState({crop:response.data["crop"]})
+        this.setState({ crop: response.data["crop"] });
         this.setState({
           display: "inline-block",
           float: "left",
@@ -121,7 +128,33 @@ export default class Predict extends React.Component {
       });
   }
 
-  loadEvent(event){
+  sendNPK(event) {
+    event.preventDefault();
+    axios({
+      url: "https://backend-django.herokuapp.com/npk-values/",
+      method: "POST",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      data: {
+        n: this.state.n,
+        p: this.state.p,
+        k: this.state.k,
+      },
+    })
+      .then((response) => {
+        this.setState({
+          n: "",
+          p: "",
+          k: "",
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  loadEvent(event) {
     event.preventDefault();
     axios({
       url: "https://backend-django.herokuapp.com/api/load-data/",
@@ -130,18 +163,19 @@ export default class Predict extends React.Component {
         Authorization: `Token ${token}`,
       },
     })
-    .then((response) =>{
-      this.setState({
-        temp: response.data.values["temperature"],
-        humidity: response.data.values["humidity"],
-        ph_value: response.data.values["ph"],
-        moisture: response.data.values["moisture"]
+      .then((response) => {
+        this.setState({
+          temp: response.data.values["temperature"],
+          humidity: response.data.values["humidity"],
+          ph_value: response.data.values["ph"],
+          moisture: response.data.values["moisture"],
+        });
+        if (this.state.temp !== "please reload")
+          this.setState({ submitbutton: false });
       })
-      if(this.state.temp!=="please reload") this.setState({submitbutton:false});
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   onChangetemp(event) {
@@ -156,10 +190,18 @@ export default class Predict extends React.Component {
   onChangemoisture(event) {
     this.setState({ moisture: event.target.value });
   }
-
-  redirect(){
+  onChangeN(event) {
+    this.setState({ n: event.target.value });
+  }
+  onChangeP(event) {
+    this.setState({ p: event.target.value });
+  }
+  onChangeK(event) {
+    this.setState({ k: event.target.value });
+  }
+  redirect() {
     if (token === "") return <Redirect to="/login" />;
-  };
+  }
 
   render() {
     token = localStorage.getItem("token");
@@ -175,6 +217,14 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.temp}
               onChange={this.onChangetemp}
+              required
+            />
+            <label style={{ marginLeft: "10px" }}>Nitrogen: </label>
+            <Input
+              type="text"
+              value={this.state.n}
+              onChange={this.onChangeN}
+              placeholder="Enter value in ppm"
             />
             <br />
             <br />
@@ -184,6 +234,13 @@ export default class Predict extends React.Component {
               value={this.state.humidity}
               onChange={this.onChangehumidity}
             />
+            <label style={{ marginLeft: "10px" }}>Phosphorus: </label>
+            <Input
+              type="text"
+              value={this.state.p}
+              onChange={this.onChangeP}
+              placeholder="Enter value in ppm"
+            />
             <br />
             <br />
             <label>PH Value: </label>
@@ -191,6 +248,13 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.ph_value}
               onChange={this.onChangeph}
+            />
+            <label style={{ marginLeft: "10px" }}>Potassium: </label>
+            <Input
+              type="text"
+              value={this.state.k}
+              onChange={this.onChangeK}
+              placeholder="Enter value in ppm"
             />
             <br />
             <br />
@@ -200,20 +264,37 @@ export default class Predict extends React.Component {
               value={this.state.moisture}
               onChange={this.onChangemoisture}
             />
+            <SubmitButton
+              title="Send NPK values to control nutrient flow in the field"
+              type="submit"
+              onClick={this.sendNPK}
+              style={{ marginLeft: "100px", width: "200px" }}
+            >
+              Send NPK
+            </SubmitButton>
             <br />
             <br />
             <br />
-            <SubmitButton title="Load data from your device" type="submit" onClick={this.loadEvent} style={{marginRight:"30px"}}>
+            <SubmitButton
+              title="Load data from your device"
+              type="submit"
+              onClick={this.loadEvent}
+              style={{ marginRight: "30px" }}
+            >
               Load Data
             </SubmitButton>
-            <SubmitButton type="submit" onClick={this.submitEvent} disabled={this.state.submitbutton}>
+            <SubmitButton
+              type="submit"
+              onClick={this.submitEvent}
+              disabled={this.state.submitbutton}
+            >
               Predict Crop
             </SubmitButton>
           </form>
         </Div>
         <Results display={this.state.result_display} crop={this.state.crop} />
-        <hr style={{visibility:"hidden"}}/>
-        <Table/>
+        <hr style={{ visibility: "hidden" }} />
+        <Table />
       </>
     );
   }

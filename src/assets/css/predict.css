@@ -1,6 +1,6 @@
 
 .header{
-    width: 40%;
+    width: 60%;
     margin: auto;
     margin-top: 35px;
     text-align: center;
@@ -12,7 +12,7 @@
 }
 
 .body{
-    width: 80%;
+    width: 90%;
     margin: auto;
     margin-top: -20px;
     text-align: center;
@@ -26,9 +26,9 @@
 
 .input{
     border-radius: 8px;
-    padding:8px;
 }
 
 p,label{
     font-weight: 600;
 }
+

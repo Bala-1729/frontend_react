@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import logo from "../../assets/img/leaves.png" 
 import Navbar from "reactjs-navbar";
 import { useHistory } from 'react-router-dom';
