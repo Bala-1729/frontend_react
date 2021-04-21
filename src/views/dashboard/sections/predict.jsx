@@ -217,6 +217,7 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.temp}
               onChange={this.onChangetemp}
+              placeholder="Enter Temperature"
               required
             />
             <label style={{ marginLeft: "10px" }}>Nitrogen: </label>
@@ -233,6 +234,7 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.humidity}
               onChange={this.onChangehumidity}
+              placeholder="Enter Humidity"
             />
             <label style={{ marginLeft: "10px" }}>Phosphorus: </label>
             <Input
@@ -248,6 +250,7 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.ph_value}
               onChange={this.onChangeph}
+              placeholder="Enter PH"
             />
             <label style={{ marginLeft: "10px" }}>Potassium: </label>
             <Input
@@ -263,6 +266,7 @@ export default class Predict extends React.Component {
               type="text"
               value={this.state.moisture}
               onChange={this.onChangemoisture}
+              placeholder="Enter Moisture"
             />
             <SubmitButton
               title="Send NPK values to control nutrient flow in the field"

@@ -41,7 +41,7 @@ const Div = styled.div`
   float: left;
 `;
 
-const dict = {'rice':rice,'wheat':wheat,'mungbean':mungbean,'Tea':Tea,'millet':millet,'maize':maize,'lentil':lentil,'jute':jute,'coffee':cofee,'cotton':cotton,'groundnut':ground_nut,'peas':peas,'rubber':rubber,'sugarcane':sugarcane,'tobacco':tobacco,'kidneybeans':kidney_beans,'mothbeans':moth_beans,'coconut':coconut,'blackgram':blackgram,'adzukibeans':adzuki_beans,'pigeonpeas':pigeon_peas,'chickpea':chick_peas,'banana':banana,'grapes':grapes,'apple':apple,'mango':mango,'muskmelon':muskmelon,'orange':orange,'papaya':papaya,'watermelon':watermelon,'pomegranate':pomegranate};
+const dict = {'rice':rice,'wheat':wheat,'Mung Bean':mungbean,'Tea':Tea,'millet':millet,'maize':maize,'Lentil':lentil,'Jute':jute,'Coffee':cofee,'Cotton':cotton,'Ground Nut':ground_nut,'peas':peas,'Rubber':rubber,'sugarcane':sugarcane,'tobacco':tobacco,'kidneybeans':kidney_beans,'mothbeans':moth_beans,'coconut':coconut,'blackgram':blackgram,'adzukibeans':adzuki_beans,'pigeonpeas':pigeon_peas,'chickpea':chick_peas,'banana':banana,'grapes':grapes,'apple':apple,'mango':mango,'muskmelon':muskmelon,'orange':orange,'papaya':papaya,'watermelon':watermelon,'pomegranate':pomegranate};
 
 export default class Results extends React.Component {
   render() {
@@ -50,15 +50,13 @@ export default class Results extends React.Component {
         <Div style={{ display: this.props.display }}>
           <div className="header1">Results</div>
           <div className="body1">
-            <img src={dict[this.props.crop]} style={{ width: "180px" }} alt="mango"/>
+            <img src={dict[this.props.crop]} style={{ width: "320px" }} alt={dict[this.props.crop]}/>
+            
             <p>
-              Crop predicted according to the values provided is{" "}
-              {this.props.crop}
+              Crop best suited for your field is{" "}
+              <h1>{this.props.crop.toUpperCase()}</h1>
             </p>
-            <p>Nitrogen needed: 40 lbs/acre</p>
-            <p>Phosphorous needed: 60 ppm</p>
-            <p>Potassium needed: 30 ppm</p>
-            <br/><br/>
+            <p></p>
           </div>
         </Div>
       </>
