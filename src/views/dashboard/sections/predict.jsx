@@ -131,7 +131,7 @@ export default class Predict extends React.Component {
   sendNPK(event) {
     event.preventDefault();
     axios({
-      url: "https://backend-django.herokuapp.com/npk-values/",
+      url: "https://backend-django.herokuapp.com/api/npk-values/",
       method: "POST",
       headers: {
         Authorization: `Token ${token}`,
