@@ -69,17 +69,17 @@ export default class Predict extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      temp: 29.73770045,
-      humidity: 47.54885174,
-      ph_value: 5.954626604,
-      moisture: 90.09586854,
+      n: "",
+      p: "",
+      k: "",
+      temp: "",
+      humidity: "",
+      ph_value: "",
+      moisture: "",
       display: "block",
       result_display: "none",
       float: "none",
       crop: "Mango",
-      n: "",
-      p: "",
-      k: "",
       flag: false,
       submitbutton: false,
     };
